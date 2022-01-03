@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <React.Fragment>
       <Head>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Component {...pageProps} />
     </React.Fragment>
