@@ -23,6 +23,7 @@ class MyDocument extends Document {
               background-color: rgb(13, 164, 235);
               border: none;
               color: white;
+              cursor: pointer;
             }
           `}
         />
