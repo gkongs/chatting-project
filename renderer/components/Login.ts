@@ -14,10 +14,14 @@ export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
+
+  p {
+    height: 10px;
+  }
 `;
 
 export const LoginButton = styled.button`
-  ${styleUtils.noramlBox}
+  ${styleUtils.normalBox}
   margin: 5px 0 20px 0;
 `;

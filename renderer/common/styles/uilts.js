@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const noramlBox = css`
+export const normalBox = css`
   width: 200px;
   height: 20px;
 `;
@@ -13,6 +13,10 @@ export const bigBox = css`
 export const basicH1 = css`
   font-size: 30px;
   font-weight: bold;
+`;
+
+export const basicFontSize = css`
+  font-size: 14px;
 `;
 
 export const centerContainer = css`

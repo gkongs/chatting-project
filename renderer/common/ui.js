@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
-import { noramlBox, bigBox } from './styles/uilts';
+import { normalBox, bigBox } from './styles/uilts';
 import { css } from '@emotion/react';
 
 export const Input = options => {
@@ -17,11 +17,12 @@ const StyledInput = styled.input`
         `;
       default:
         return css`
-          ${noramlBox}
+          ${normalBox}
         `;
     }
   }}
 `;
+
 export const Button = ({ text, ...options }) => {
   return <StyledButton {...options}>{text}</StyledButton>;
 };
@@ -45,8 +46,17 @@ const StyledButton = styled.button`
         `;
       default:
         return css`
-          ${noramlBox}
+          ${normalBox}
         `;
     }
   }}
+`;
+
+export const ErrorMsg = ({ text }) => {
+  return <StyledErrorMsg>{text}</StyledErrorMsg>;
+};
+
+const StyledErrorMsg = styled.p`
+  color: red;
+  font-size: 10px;
 `;

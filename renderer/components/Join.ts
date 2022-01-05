@@ -3,7 +3,7 @@ import * as styleUtils from '../common/styles/uilts';
 
 export const JoinBox = styled.div`
   ${styleUtils.centerContainer}
-  gap:15px;
+  gap: 10px;
 `;
 
 export const JoinTitle = styled.h1`
@@ -15,5 +15,9 @@ export const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
+
+  p {
+    height: 10px;
+  }
 `;
