@@ -4,10 +4,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 import dotenv from 'dotenv';
 import Router from 'next/router';
-
+import { storageSetUserInfo, storageGetUserInfo } from '../functions/storage';
 dotenv.config();
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -60,9 +61,34 @@ export const fLogin = (email, password, setErrorMsg) => {
   const auth = getAuth(fApp);
   signInWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      Router.push('/home');
+      const { displayName: name, photoURL: photo } = userCredential.user;
+
+      // default profile이 정해져 있지 않다면 (최초 로그인)
+      // profile 설정화면으로
+      if (!name) {
+        Router.push('/setProfile');
+      } else {
+        storageSetUserInfo('name', name);
+        storageSetUserInfo('photo', photo);
+        Router.push('/userList');
+      }
     })
     .catch(error => {
       setErrorMsg(fAuthError(error.code));
+    });
+};
+
+export const fUpdateProfile = (name, photoURL) => {
+  const auth = getAuth(fApp);
+  updateProfile(auth.currentUser, {
+    displayName: name,
+    photoURL: photoURL,
+  })
+    .then(() => {
+      Router.push('/userList');
+    })
+    .catch(error => {
+      // An error occurred
+      // ...
     });
 };
