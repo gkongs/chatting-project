@@ -60,3 +60,27 @@ const StyledErrorMsg = styled.p`
   color: red;
   font-size: 10px;
 `;
+
+export const UserImage = options => {
+  return <StyledUserImage {...options}></StyledUserImage>;
+};
+
+const StyledUserImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border: dashed 1px black;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  font-size: 14px;
+`;
+
+export const InputLabel = ({ text, ...options }) => {
+  return <StyledInputLable {...options}>{text}</StyledInputLable>;
+};
+
+const StyledInputLable = styled.label`
+  font-weight: bold;
+  color: rgb(13, 164, 235);
+  font-size: 14px;
+`;

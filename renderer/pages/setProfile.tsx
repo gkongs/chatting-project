@@ -2,25 +2,40 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 
 import { JoinBox, JoinTitle, JoinForm } from '../components/Join';
-import { Input, Button, LinkButton, ErrorMsg } from '../common/ui';
-import { fJoin } from '../../firebase/app';
+import {
+  Input,
+  Button,
+  LinkButton,
+  ErrorMsg,
+  UserImage,
+  InputLabel,
+} from '../common/ui';
+import { fJoin, fUpdateProfile } from '../../firebase/app';
 
 function SetProfile() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [name, setName] = useState('');
+  const [photoURL, setphotoURL] = useState('');
+  const [imgBase64, setImgBase64] = useState(null);
 
-  const setJoinValue = e => {
+  const setProfileValue = e => {
     e.preventDefault();
     const { name, value } = e.target;
     switch (name) {
-      case '이메일':
-        setEmail(value);
-        break;
-      case '비밀번호':
-        setPassword(value);
+      case '이름':
+        setName(value);
         break;
     }
+  };
+  console.log(name);
+  console.log(photoURL);
+  const updateSumnail = e => {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    setphotoURL(file.path);
+    reader.onload = function (e) {
+      setImgBase64(reader.result);
+    };
   };
 
   return (
@@ -33,25 +48,33 @@ function SetProfile() {
         <JoinForm
           onSubmit={e => {
             e.preventDefault();
-            fJoin(email, password, setErrorMsg);
+            fUpdateProfile(name, photoURL);
           }}>
           <Input
             name="이름"
             placeholder="이름"
-            value={email}
-            onChange={setJoinValue}
+            value={name}
+            onChange={setProfileValue}
             required
           />
-          <label htmlFor="photoInput"> 이미지 선택 </label>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: '10px',
+            }}>
+            <UserImage src={imgBase64} />
+            <InputLabel text="이미지 불러오기 📄" htmlFor="photoInput" />
+          </div>
           <Input
             style={{ display: 'none' }}
             id="photoInput"
             name="프로필사진"
             type="file"
-            value={email}
+            accept="image/*"
+            onChange={updateSumnail}
             required
           />
-          <ErrorMsg text={errorMsg} />
           <Button text="설정" type="submit" />
         </JoinForm>
       </JoinBox>

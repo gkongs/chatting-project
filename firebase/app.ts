@@ -19,10 +19,10 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
-console.log(firebaseConfig);
 
 // Initialize Firebase
 export const fApp = initializeApp(firebaseConfig);
+const auth = getAuth(fApp);
 
 const fAuthError = errorCode => {
   console.log(errorCode);
@@ -46,7 +46,6 @@ const fAuthError = errorCode => {
 };
 
 export const fJoin = (email, password, setErrorMsg) => {
-  const auth = getAuth(fApp);
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
       Router.push('/login');
@@ -58,7 +57,7 @@ export const fJoin = (email, password, setErrorMsg) => {
 
 export const fLogin = (email, password, setErrorMsg) => {
   console.log('ds');
-  const auth = getAuth(fApp);
+
   signInWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
       const { displayName: name, photoURL: photo } = userCredential.user;
@@ -79,7 +78,6 @@ export const fLogin = (email, password, setErrorMsg) => {
 };
 
 export const fUpdateProfile = (name, photoURL) => {
-  const auth = getAuth(fApp);
   updateProfile(auth.currentUser, {
     displayName: name,
     photoURL: photoURL,
@@ -88,7 +86,22 @@ export const fUpdateProfile = (name, photoURL) => {
       Router.push('/userList');
     })
     .catch(error => {
+      console.log(error.message);
       // An error occurred
       // ...
     });
+};
+
+export const fCurrentUser = () => {
+  const auth = getAuth(fApp);
+  const user = auth.currentUser;
+  if (user !== null) {
+    const displayName = user.displayName;
+    const email = user.email;
+    const photoURL = user.photoURL;
+    const emailVerified = user.emailVerified;
+    const uid = user.uid;
+
+    return { name: displayName, photo: photoURL };
+  }
 };
