@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, onValue } from 'firebase/database';
 import { getAnalytics } from 'firebase/analytics';
 import {
   getAuth,
@@ -9,7 +10,9 @@ import {
 import dotenv from 'dotenv';
 import Router from 'next/router';
 import { storageSetUserInfo, storageGetUserInfo } from '../functions/storage';
+
 dotenv.config();
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -22,6 +25,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const fApp = initializeApp(firebaseConfig);
+const db = getDatabase(fApp);
 const auth = getAuth(fApp);
 
 const fAuthError = errorCode => {
@@ -55,26 +59,18 @@ export const fJoin = (email, password, setErrorMsg) => {
     });
 };
 
-export const fLogin = (email, password, setErrorMsg) => {
-  console.log('ds');
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then(userCredential => {
-      const { displayName: name, photoURL: photo } = userCredential.user;
-
-      // default profile이 정해져 있지 않다면 (최초 로그인)
-      // profile 설정화면으로
-      if (!name) {
-        Router.push('/setProfile');
-      } else {
-        storageSetUserInfo('name', name);
-        storageSetUserInfo('photo', photo);
-        Router.push('/userList');
-      }
-    })
-    .catch(error => {
-      setErrorMsg(fAuthError(error.code));
-    });
+export const fLogin = async (email, password, setErrorMsg) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    const data = await getUserData();
+    if (!data) {
+      Router.push('/setProfile');
+    } else {
+      Router.push('/main');
+    }
+  } catch (error) {
+    setErrorMsg(fAuthError(error.code));
+  }
 };
 
 export const fUpdateProfile = (name, photoURL) => {
@@ -92,16 +88,30 @@ export const fUpdateProfile = (name, photoURL) => {
     });
 };
 
-export const fCurrentUser = () => {
-  const auth = getAuth(fApp);
-  const user = auth.currentUser;
-  if (user !== null) {
-    const displayName = user.displayName;
-    const email = user.email;
-    const photoURL = user.photoURL;
-    const emailVerified = user.emailVerified;
-    const uid = user.uid;
+// export const fCurrentUser = () => {
+//   const auth = getAuth(fApp);
+//   const user = auth.currentUser;
+//   if (user !== null) {
+//     const displayName = user.displayName;
+//     const photoURL = user.photoURL;
 
-    return { name: displayName, photo: photoURL };
-  }
+//     return { name: displayName, photo: photoURL };
+//   }
+// };
+
+export const writeUserData = (name, photo) => {
+  set(ref(db, 'users/' + auth.currentUser.uid), {
+    name,
+    photo,
+  });
+  Router.push('/main');
+};
+
+export const getUserData = async () => {
+  const profile = ref(db, 'users/' + auth.currentUser.uid);
+  return new Promise(function (resolve, reject) {
+    onValue(profile, snapshot => {
+      resolve(snapshot.val());
+    });
+  });
 };

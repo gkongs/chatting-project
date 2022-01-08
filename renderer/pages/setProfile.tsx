@@ -10,7 +10,7 @@ import {
   UserImage,
   InputLabel,
 } from '../common/ui';
-import { fJoin, fUpdateProfile } from '../../firebase/app';
+import { fJoin, fUpdateProfile, writeUserData } from '../../firebase/app';
 
 function SetProfile() {
   const [name, setName] = useState('');
@@ -25,9 +25,8 @@ function SetProfile() {
         setName(value);
         break;
     }
-  };
-  console.log(name);
-  console.log(photoURL);
+  };\
+  
   const updateSumnail = e => {
     var file = e.target.files[0];
     var reader = new FileReader();
@@ -48,7 +47,7 @@ function SetProfile() {
         <JoinForm
           onSubmit={e => {
             e.preventDefault();
-            fUpdateProfile(name, photoURL);
+            writeUserData(name, photoURL);
           }}>
           <Input
             name="이름"
