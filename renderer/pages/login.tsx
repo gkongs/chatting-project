@@ -6,7 +6,7 @@ import {
   LoginTitle,
   LoginForm,
   LoginButton,
-} from '../components/Login';
+} from '../components/styled/Login';
 import { fLogin } from '../../firebase/app';
 
 function Login() {
@@ -17,7 +17,7 @@ function Login() {
   const setLoginValue = e => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log(value);
+
     switch (name) {
       case '이메일':
         setEmail(value);
@@ -27,7 +27,7 @@ function Login() {
         break;
     }
   };
-  console.log(email);
+
   return (
     <React.Fragment>
       <Head>

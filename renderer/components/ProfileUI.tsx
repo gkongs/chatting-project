@@ -1,23 +1,14 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
-import { getUserData } from '../../firebase/app';
 import { UserImage } from '../common/ui';
-import { centerContainer } from '../common/styles/uilts';
 
-function ProfileUI() {
-  const [userProfile, setUserProfile]: any = useState({
-    name: null,
-    photo: null,
-  });
-
-  useEffect(() => {
-    getUserData().then(({ name }) => setUserProfile({ name }));
-  }, [userProfile]);
-
+function ProfileUI({ id, name, photo, setCurrentPartnerId = null }) {
   return (
-    <StyledProfileUI>
-      <UserImage />
-      <h1>{userProfile.name}</h1>
+    <StyledProfileUI
+      onClick={() => {
+        if (setCurrentPartnerId) return setCurrentPartnerId(id);
+      }}>
+      <UserImage src={photo} />
+      <h1>{name}</h1>
     </StyledProfileUI>
   );
 }
@@ -29,7 +20,7 @@ const StyledProfileUI = styled.div`
   align-items: center;
   width: 180px;
   padding: 10px;
-  background-color: whitesmoke;
+  cursor: pointer;
 
   img {
     margin-right: 10px;

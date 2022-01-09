@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { JoinBox, JoinTitle, JoinForm } from '../components/Join';
+import { JoinBox, JoinTitle, JoinForm } from '../components/styled/Join';
 import {
   Input,
   Button,
@@ -14,7 +14,6 @@ import { fJoin, fUpdateProfile, writeUserData } from '../../firebase/app';
 
 function SetProfile() {
   const [name, setName] = useState('');
-  const [photoURL, setphotoURL] = useState('');
   const [imgBase64, setImgBase64] = useState(null);
 
   const setProfileValue = e => {
@@ -25,13 +24,12 @@ function SetProfile() {
         setName(value);
         break;
     }
-  };\
-  
+  };
+
   const updateSumnail = e => {
     var file = e.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(file);
-    setphotoURL(file.path);
     reader.onload = function (e) {
       setImgBase64(reader.result);
     };
@@ -47,7 +45,7 @@ function SetProfile() {
         <JoinForm
           onSubmit={e => {
             e.preventDefault();
-            writeUserData(name, photoURL);
+            writeUserData(name, imgBase64);
           }}>
           <Input
             name="이름"

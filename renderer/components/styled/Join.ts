@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import * as styleUtils from '../common/styles/uilts';
+import * as styleUtils from '../../common/styles/uilts';
 
 export const JoinBox = styled.div`
   ${styleUtils.centerContainer}

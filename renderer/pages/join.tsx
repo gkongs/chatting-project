@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import { JoinBox, JoinTitle, JoinForm } from '../components/Join';
+import { JoinBox, JoinTitle, JoinForm } from '../components/styled/Join';
 import { Input, Button, LinkButton, ErrorMsg } from '../common/ui';
 import { fJoin } from '../../firebase/app';
 

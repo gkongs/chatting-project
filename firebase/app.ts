@@ -83,21 +83,16 @@ export const fUpdateProfile = (name, photoURL) => {
     })
     .catch(error => {
       console.log(error.message);
-      // An error occurred
-      // ...
     });
 };
 
-// export const fCurrentUser = () => {
-//   const auth = getAuth(fApp);
-//   const user = auth.currentUser;
-//   if (user !== null) {
-//     const displayName = user.displayName;
-//     const photoURL = user.photoURL;
-
-//     return { name: displayName, photo: photoURL };
-//   }
-// };
+export const fCurrentUserId = () => {
+  const auth = getAuth(fApp);
+  const user = auth.currentUser;
+  if (user !== null) {
+    return user.uid;
+  }
+};
 
 export const writeUserData = (name, photo) => {
   set(ref(db, 'users/' + auth.currentUser.uid), {
@@ -113,5 +108,20 @@ export const getUserData = async () => {
     onValue(profile, snapshot => {
       resolve(snapshot.val());
     });
+  });
+};
+
+export const getAllUsersData = async () => {
+  const profile = ref(db, 'users/');
+  return new Promise(function (resolve, reject) {
+    onValue(profile, snapshot => {
+      resolve(snapshot.val());
+    });
+  });
+};
+
+export const writeChatMsg = (partnerId, msg) => {
+  set(ref(db, 'users/' + auth.currentUser.uid + '/' + partnerId), {
+    msg,
   });
 };
