@@ -1,10 +1,6 @@
 import UserList from '../components/UserList';
 import Chat from '../components/Chat';
-import {
-  fCurrentUserId,
-  getAllUsersData,
-  writeChatMsg,
-} from '../../firebase/app';
+import { fCurrentUserId, getAllUsersData } from '../../firebase/app';
 import { useEffect, useState } from 'react';
 
 function Main() {

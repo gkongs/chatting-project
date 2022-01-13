@@ -2,15 +2,8 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 
 import { JoinBox, JoinTitle, JoinForm } from '../components/styled/Join';
-import {
-  Input,
-  Button,
-  LinkButton,
-  ErrorMsg,
-  UserImage,
-  InputLabel,
-} from '../common/ui';
-import { fJoin, fUpdateProfile, writeUserData } from '../../firebase/app';
+import { Input, Button, UserImage, InputLabel } from '../common/ui';
+import { writeUserData } from '../../firebase/app';
 
 function SetProfile() {
   const [name, setName] = useState('');

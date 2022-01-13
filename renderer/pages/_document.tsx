@@ -2,7 +2,6 @@ import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import emotionReset from 'emotion-reset';
 import { css, Global } from '@emotion/react';
-import { colors } from '../common/styles/variables';
 
 class MyDocument extends Document {
   render() {

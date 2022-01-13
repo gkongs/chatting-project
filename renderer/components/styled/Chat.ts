@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { colors } from '../../common/styles/variables';
 
 export const StyledChat = styled.div`
   display: flex;
